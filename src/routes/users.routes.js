@@ -4,24 +4,13 @@ const UsersController = require("../controllers/UsersController");
 
 const usersRoutes = Router();
 
-function myMiddleware(request, response, next) {
-   console.log("Você passou pelo Middleware");
-
-   next();
-
-
-}
-
-
-
-
-
+const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
 
 const usersController = new UsersController();
 
 
 
-usersRoutes.post("/", myMiddleware, usersController.create);
-usersRoutes.put("/:id", usersController.update);
+usersRoutes.post("/", usersController.create);
+usersRoutes.put("/", ensureAuthenticated, usersController.update);
 
 module.exports = usersRoutes;
